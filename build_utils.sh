@@ -867,13 +867,16 @@ function build_gki_boot_images() {
       # Note, the certified GKI release builds will not include the SPL
       # property.
       #local spl_month=$((($(date +'%m') + 3) % 12))
-      local spl_month=07
+      # TN modified [ALPS09172886] kleaf: Fix octal months by yang.chen1/860621 20240808 CR/EKLAMU-2185
+      local spl_month=$((($(date +'%-m') + 3) % 12))
       local spl_year="$(date +'%Y')"
       if [ $((${spl_month} % 3)) -gt 0 ]; then
         # Round up to the next quarterly platform release (QPR) month
         spl_month=$((${spl_month} + 3 - (${spl_month} % 3)))
       fi
-      if [ "${spl_month}" -lt "$(date +'%m')" ]; then
+      #if [ "${spl_month}" -lt "$(date +'%m')" ]; then
+      # TN modified [ALPS09172886] kleaf: Fix octal months by yang.chen1/860621 20240808 CR/EKLAMU-2185
+      if [ "${spl_month}" -lt "$(date +'%-m')" ]; then
         # rollover to the next year
         spl_year="$((${spl_year} + 1))"
       fi
