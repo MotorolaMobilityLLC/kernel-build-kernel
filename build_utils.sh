@@ -866,8 +866,8 @@ function build_gki_boot_images() {
       # overwritten by the Android platform build to include an accurate SPL.
       # Note, the certified GKI release builds will not include the SPL
       # property.
-      #local spl_month=$((($(date +'%m') + 3) % 12))
       # TN modified [ALPS09172886] kleaf: Fix octal months by yang.chen1/860621 20240808 CR/EKLAMU-2185
+      #local spl_month=$((($(date +'%m') + 3) % 12))
       local spl_month=$((($(date +'%-m') + 3) % 12))
       local spl_year="$(date +'%Y')"
       if [ $((${spl_month} % 3)) -gt 0 ]; then
@@ -875,12 +875,12 @@ function build_gki_boot_images() {
         spl_month=$((${spl_month} + 3 - (${spl_month} % 3)))
       fi
       #if [ "${spl_month}" -lt "$(date +'%m')" ]; then
-      # TN modified [ALPS09172886] kleaf: Fix octal months by yang.chen1/860621 20240808 CR/EKLAMU-2185
       if [ "${spl_month}" -lt "$(date +'%-m')" ]; then
         # rollover to the next year
         spl_year="$((${spl_year} + 1))"
       fi
       local spl_date=$(printf "%d-%02d-05\n" ${spl_year} ${spl_month})
+      # TN modified [ALPS09172886] kleaf: Fix octal months by yang.chen1/860621 20240808 CR/EKLAMU-2185
 
       gki_add_avb_footer "${boot_image_path}" \
         "$(gki_get_boot_img_size "${compression}")" "${spl_date}"
