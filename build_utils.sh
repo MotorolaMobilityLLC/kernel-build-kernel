@@ -977,6 +977,12 @@ js = json.load(sys.stdin)
 key = sys.argv[1]
 if key in js:
     print(js[key])
+    sys.exit(0)
+# TODO(b/377954908): Inject all local_path_override from Bazel here.
+key = key.replace("external/kleaf~", "external/kleaf")
+key = key.replace("external/kleaf+", "external/kleaf")
+if key in js:
+    print(js[key])
 ' "${git_project_candidate}" <<< "${map}")
     if [[ -n "${value_candidate}" ]]; then
         break
